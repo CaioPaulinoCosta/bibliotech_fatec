@@ -2,11 +2,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 from appmodelo.views.HomeViews import home
 from appmodelo.views.GeneroViews import lista_generos, detalhes_genero, novo_genero, editar_genero, deletar_genero
 from appmodelo.views.EditoraViews import lista_editoras, detalhes_editora, nova_editora, editar_editora, deletar_editora
 from appmodelo.views.AutorViews import lista_autores, detalhes_autor, novo_autor, editar_autor, deletar_autor
-from appmodelo.views.LivroViews import lista_livros, detalhes_livro, novo_livro, editar_livro, deletar_livro, livros_recentes
+from appmodelo.views.LivroViews import lista_livros, detalhes_livro, novo_livro, editar_livro, deletar_livro, livros_recentes, gerar_pdf_livro
 from appmodelo.views.ExemplarViews import lista_exemplares, detalhes_exemplar, novo_exemplar, editar_exemplar, deletar_exemplar
 from appmodelo.views.FuncionarioViews import lista_funcionarios,detalhes_funcionario, novo_funcionario, editar_funcionario, deletar_funcionario
 from appmodelo.views.UsuarioViews import lista_usuarios, detalhes_usuario, novo_usuario, editar_usuario, deletar_usuario
@@ -49,6 +50,7 @@ urlpatterns = [
     path('livro/editar/<int:pk>/', editar_livro, name='editar_livro'),
     path('livro/deletar/<int:pk>/', deletar_livro, name='deletar_livro'),
     path('livro/livros-recentes/', livros_recentes, name='livros_recentes'),
+    path('livro/<int:pk>/gerar_pdf/', gerar_pdf_livro, name='gerar_pdf_livro'),
 
     # URLs para o modelo Exemplar
     path('exemplares/', lista_exemplares, name='lista_exemplares'),

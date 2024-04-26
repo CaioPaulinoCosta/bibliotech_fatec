@@ -3,10 +3,13 @@
 <p><strong>ID:</strong> {{ livro.id }}</p>
 <p><strong>Título:</strong> {{ livro.titulo }}</p>
 <p><strong>Ano de Publicação:</strong> {{ livro.ano_publicacao }}</p>
-<p><strong>Gênero:</strong> {{ livro.genero.nome }}</p>
-<p><strong>Editora:</strong> {{ livro.editora.nome }}</p>
+<p><strong>Gênero:</strong> {{ livro.genero }}</p>
+<p><strong>Editora:</strong> {{ livro.editora }}</p>
 <a href="{% url 'editar_livro' livro.id %}" class="btn btn-primary">Editar</a>
 <a href="{% url 'lista_livros' %}" class="btn btn-secondary"
   >Voltar para Lista</a
+>
+<a href="{% url 'gerar_pdf_livro' livro.id %}" class="btn btn-success"
+  >Gerar PDF</a
 >
 {% endblock %}

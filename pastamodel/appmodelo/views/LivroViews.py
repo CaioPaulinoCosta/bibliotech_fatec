@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from ..models import Livro
 from ..forms import LivroForm
+from django.http import HttpResponse
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from ..models import Livro
 
 
-# Views para o modelo Livro
 def lista_livros(request):
     livros = Livro.objects.all()
     return render(request, 'lista_livros.html', {'livros': livros})
@@ -46,3 +50,36 @@ def livros_recentes(request):
     livros = Livro.objects.all().order_by('-data_publicacao')  
 
     return render(request, 'livros_recentes.html', {'livros': livros})
+
+def gerar_pdf_livro(request, pk):
+    livro = get_object_or_404(Livro, pk=pk)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{livro.titulo}.pdf"'
+
+    # Cria um documento PDF
+    doc = SimpleDocTemplate(response, pagesize=letter)
+    elements = []
+
+    # Adiciona as informações do livro ao PDF
+    data = [
+        ['Id:', livro.id],
+        ['Título:', livro.titulo],
+        ['Ano de Publicação:', str(livro.ano_publicacao)],
+        ['Gênero:', livro.genero],
+        ['Editora:', livro.editora],
+        ['Descrição:', livro.descricao],
+    ]
+    table = Table(data)
+    table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                               ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                               ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                               ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                               ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                               ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                               ]))
+    elements.append(table)
+
+    # Adiciona o PDF ao documento
+    doc.build(elements)
+    return response
