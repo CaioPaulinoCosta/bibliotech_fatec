@@ -1,39 +1,41 @@
 {% extends 'Header.html' %} {% block base %} {% load static %}
-<div class="base-title ml-4">
+<div class="base-title">
   <h1>Livros Recentes</h1>
   <p>Lista com os livros postados recentemente.</p>
 </div>
-<div class="card-container">
+<div class="row row-cols-1 row-cols-md-4 g-4 mr-5">
   {% for livro in livros_recentes %}
-  <div class="card m-2">
-    <div class="card-img">
+  <div class="col mb-5">
+    <div class="card h-100">
       {% if livro.imagem %}
-      <img src="{{ livro.imagem.url }}" alt="{{ livro.titulo }} Imagem" />
+      <img
+        class="img-fluid"
+        src="{{ livro.imagem.url }}"
+        alt="{{ livro.titulo }} Imagem"
+      />
       {% else %}
-      <img src="{% static 'imgs/card-bg.jpg' %}" alt="" />
+      <img class="img-fluid" src="{% static 'imgs/card-bg.jpg' %}" alt="" />
       {% endif %}
-    </div>
-    <div class="card-title m-2">
-      <h3>{{ livro.titulo }}</h3>
-    </div>
-    <div class="card-content p-2">
-      {% if livro.descricao %}
-      <p>{{ livro.descricao }}</p>
-      {% else %}
-      <p>Descrição não disponível.</p>
-      {% endif %}
-    </div>
-    <div class="card-buttons p-2">
-      <a href="{% url 'lista_livros' %}"
-        ><button class="btn btn-card details">Detalhes</button></a
-      >
-      <a href="{% url 'novo_livro' %}"
-        ><button class="btn btn-card add">Adicionar</button></a
-      >
-    </div>
-    <div class="card-publish-date p-2">
-      <i class="fa-solid fa-calendar"></i> Publicado no ano de
-      {{livro.ano_publicacao }}
+      <div class="card-body">
+        <h5 class="card-title">{{ livro.titulo }}</h5>
+        {% if livro.descricao %}
+        <p class="card-text">{{ livro.descricao }}</p>
+        {% else %}
+        <p class="card-text">Descrição não disponível.</p>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <a href="{% url 'novo_livro' %}"
+          ><button class="btn btn-card add w-100 mb-2">Adicionar</button></a
+        >
+        <a href="{% url 'lista_livros' %}"
+          ><button class="btn btn-card details w-100">Detalhes</button></a
+        >
+      </div>
+      <div class="card-footer">
+        <i class="fa-solid fa-calendar"></i> Publicado no ano de
+        {{livro.ano_publicacao }}
+      </div>
     </div>
   </div>
   {% endfor %}

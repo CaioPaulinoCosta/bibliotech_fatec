@@ -17,8 +17,8 @@
       <td>{{ livro.id }}</td>
       <td>{{ livro.titulo }}</td>
       <td>{{ livro.ano_publicacao }}</td>
-      <td>{{ livro.genero.nome }}</td>
-      <td>{{ livro.editora.nome }}</td>
+      <td>{{ livro.genero }}</td>
+      <td>{{ livro.editora }}</td>
       <td>
         <a
           href="{% url 'detalhes_livro' livro.id %}"
